@@ -56,6 +56,7 @@ body {
             let loginRedirect = () => {
                 $("#btn-login").html('Redirecting...<div class="ld ld-ring ld-spin"></div>');
                 $("#btn-login").addClass("running").attr("disabled", "1");
+                setTimeout(() => {location.replace("app/auth/"); }, 1200);
             };
 
             $("#btn-login").click(loginRedirect);
