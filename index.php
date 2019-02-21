@@ -13,11 +13,10 @@
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == true) 
     {
         header("Location: app/interface/");
-        echo("If you don't get redirected, click <a href='app/interface/'>here</a>");
+        die("If you don't get redirected, click <a href='app/interface/'>here</a>");
     }
 ?>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -35,21 +34,21 @@
             font-family: "Josefin Sans";
         }
         html {
-  position: relative;
-  min-height: 100%;
-}
-body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
-}
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-  background-color: #f5f5f5;
-}
+            position: relative;
+            min-height: 100%;
+        }
+        body {
+            /* Margin bottom by footer height */
+            margin-bottom: 60px;
+        }
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            /* Set the fixed height of the footer here */
+            height: 60px;
+            background-color: #f5f5f5;
+        }
     </style>
     <script>
         $(() => {
@@ -70,16 +69,15 @@ body {
         $nav -> setNavbarType("loggedOut");
         $nav -> render();
         ?>
-</body>
-    <div class="container" style='margin-top: 15px;'>
+    <div class="container" style='margin-top: 15px'>
         <div class="alert alert-warning" role="alert">
             You are not logged in.
         </div>
         <h1 class='display-4 modern'> pangaea fusion </h1>
-        <p class='lead modern'> As Pangea's in-house scouting info platform, Fusion enables our members to effectively and quickly catalog data. </p>
+        <p class='lead modern'> As Pangea's in-house data platform, Fusion enables our members to effectively and quickly catalog scouting, project, and to-do data. </p>
         <button type="button" class="btn btn-primary ld-ext-right" id="btn-login">Log in<div class="ld ld-ring ld-spin"></div></button>
     </div>
-    <footer class="footer">
+    <footer class="footer" style='margin-top: 5px;'>
       <div class="container" style='margin-top:16px'>
         <span class="text-muted align-middle">(c) 2019 Team Pangaea - Fusion 1.0.0</span>
       </div>
