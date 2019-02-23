@@ -25,10 +25,12 @@
     <script src="/assets/bootstrap/jquery-3.3.1.slim.min.js"></script>
     <script src="/assets/bootstrap/popper.min.js"></script>
     <script src="/assets/bootstrap/bootstrap.min.js"></script>
+    <script src="/assets/izitoast/izitoast.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/assets/loading-btn/loading.css" />
     <link rel="stylesheet" type="text/css" href="/assets/loading-btn/loading-btn.css" />
-    <link rel="stylesheet" type="text/css" href="/assets/fonts.css">
-    <link rel="stylesheet" type="text/css" href="/assets/fontawesome/css/all.css">
+    <link rel="stylesheet" type="text/css" href="/assets/fonts.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/fontawesome/css/all.css" />
+    <link rel="stylesheet" type="text/css" href="/assets/izitoast/izitoast.min.css" />
     <title>Log In | Fusion</title>
     <style>
         .modern {
@@ -73,7 +75,7 @@ background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, F
                     return false;
 
                 $("#btn-login").html('Logging in...<div class="ld ld-ring ld-spin"></div>');
-                $("#btn-login").addClass("running").attr("disabled", "1");
+                $("#btn-login").addClass("running").prop("disabled", true);
 
                 $.ajax({
                     "method": "POST",
@@ -83,7 +85,31 @@ background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, F
                         password: password
                     }
                 }).done((data) => {
-                    console.log("Got Login API response: " +data);
+                    let decoded = JSON.parse(data);
+
+                    console.log(decoded, data);
+
+                    if (decoded.success) {
+                        iziToast.show({
+                            theme: 'dark',
+                            icon: "fa fa-user",
+                            title: 'Successfully logged in',
+                            message: 'Welcome, ' + username + '!',
+                            position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+                            progressBarColor: 'rgb(0, 255, 184)',
+                            buttons: [
+                                ["<button>Continue</button>", () => {location.replace("/app/interface")}]
+                            ]
+                        });
+                    } else {
+                        $("#btn-login").html('Login');
+                        $("#btn-login").removeClass("running").prop("disabled", false);
+                        iziToast.error({
+                            message: "That didn't work, please try again.",
+                            icon: "fa fa-times",
+                             timeout: 9999999
+                        });
+                    }
                 }).fail((err) => {
                     console.error("API fetch failed", err);
                 });

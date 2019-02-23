@@ -14,11 +14,6 @@ $database->connect();
 $username = $_POST['username'];
 $password = $_POST['password'];
 
-// DEBUG //
-$username = "pangaea";
-$password = "pangaea1213";
-// DEBUG //
-
 $gate = new FusionUser($database);
 
 if (!$gate->doesLoginWork($username, $password))
