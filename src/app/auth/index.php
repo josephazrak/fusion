@@ -15,8 +15,6 @@
         header("Location: /app/interface/");
         die("If you don't get redirected, click <a href='/app/interface/'>here</a>");
     }
-
-    $m = MongoClient();
 ?>
 <html lang="en">
 <head>
@@ -68,8 +66,27 @@ background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, F
     <script>
         $(() => {
             let loginRedirect = () => {
+                let username = $("#username-ctrl").val();
+                let password = $("#passwd-ctrl").val();
+
+                if (username == "" || password == "")
+                    return false;
+
                 $("#btn-login").html('Logging in...<div class="ld ld-ring ld-spin"></div>');
                 $("#btn-login").addClass("running").attr("disabled", "1");
+
+                $.ajax({
+                    "method": "POST",
+                    "url": "api/login.php",
+                    "data": {
+                        username: username,
+                        password: password
+                    }
+                }).done((data) => {
+                    console.log("Got Login API response: " +data);
+                }).fail((err) => {
+                    console.error("API fetch failed", err);
+                });
             };
 
             $("#btn-login").click(loginRedirect);

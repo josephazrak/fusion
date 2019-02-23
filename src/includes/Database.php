@@ -1,5 +1,5 @@
 <?php
-    class FusionDB {
+    class FusionDBInterface {
         private $host = "127.0.0.1";
         private $port = "3306";
         private $db   = "fusion";
@@ -9,16 +9,26 @@
 
         private $inst;
 
+        public $connected = false;
+
         public function connect() 
         {
             try
             {
                 $conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db, $this->user, $this->pass);
                 $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                
+                $this -> inst = $conn;
+                $this -> connected = true;
             } 
             catch (PDOException $e) 
             {
                 echo "DB CONNECT FAIL! " . $e->getMessage();
             }
+        }
+
+        public function instance() 
+        {
+            return $this -> inst;
         }
     }
