@@ -1,6 +1,7 @@
 <?php
     $INCLUDE_ROOT = $_SERVER['DOCUMENT_ROOT'] . '/includes/';
     require_once($INCLUDE_ROOT . "Navbar.php");
+    require_once($INCLUDE_ROOT . "Session.php");
 ?>
 <?php
     session_start();
@@ -43,9 +44,9 @@
         body {
             /* Margin bottom by footer height */
             margin-bottom: 60px;
-            background: #8360c3;  /* fallback for old browsers */
-background: -webkit-linear-gradient(to right, #008741, #54d1ea);  /* Chrome 10-25, Safari 5.1-6 */
-background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+            background: #36D1DC;  /* fallback for old browsers */
+            background: -webkit-linear-gradient(to right, #5B86E5, #36D1DC);  /* Chrome 10-25, Safari 5.1-6 */
+            background: linear-gradient(to right, #5B86E5, #36D1DC); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
         }
         .Absolute-Center {
@@ -67,6 +68,15 @@ background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, F
     </script>
     <script>
         $(() => {
+            $(document).on('keypress', (e) => {
+                if(e.which == 13) {
+                    if ($("#username-ctrl").is(":focus") || $("#passwd-ctrl").is(":focus"))
+                    {
+                        loginRedirect();
+                    }
+                }
+            });
+
             let loginRedirect = () => {
                 let username = $("#username-ctrl").val();
                 let password = $("#passwd-ctrl").val();
@@ -85,31 +95,52 @@ background: linear-gradient(to right, #008741, #54d1ea); /* W3C, IE 10+/ Edge, F
                         password: password
                     }
                 }).done((data) => {
-                    let decoded = JSON.parse(data);
+                    try
+                    {
+                        let decoded = JSON.parse(data);
 
-                    console.log(decoded, data);
+                        console.log(decoded, data);
 
-                    if (decoded.success) {
-                        iziToast.show({
-                            theme: 'dark',
-                            icon: "fa fa-user",
-                            title: 'Successfully logged in',
-                            message: 'Welcome, ' + username + '!',
-                            position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
-                            progressBarColor: 'rgb(0, 255, 184)',
-                            buttons: [
-                                ["<button>Continue</button>", () => {location.replace("/app/interface")}]
-                            ]
+                        if (decoded.success) {
+                            iziToast.show({
+                                theme: 'dark',
+                                icon: "fa fa-user",
+                                title: "Welcome!",
+                                message: decoded.message,
+                                position: 'topRight', // bottomRight, bottomLeft, topRight, topLeft, topCenter, bottomCenter
+                                progressBarColor: 'rgb(0, 255, 184)',
+                                buttons: [
+                                    ["<button>Continue</button>", () => {location.replace("/app/interface")}]
+                                ],
+                                timeout: 4000
+                            });
+
+                            setTimeout(() => {
+                                location.replace("/app/interface");
+                            }, 3500);
+                        } else {
+                            $("#btn-login").html('Login');
+                            $("#btn-login").removeClass("running").prop("disabled", false);
+                            iziToast.error({
+                                message: decoded.message,
+                                icon: "fa fa-times",
+                                timeout: 9999999
+                            });
+                        }
+                    }
+                    catch (e)
+                    {
+                        iziToast.error({
+                            title: "Fatal error",
+                            message: toString(e),
+                            icon: "fa fa-times",
+                            timeout: 9999999
                         });
-                    } else {
                         $("#btn-login").html('Login');
                         $("#btn-login").removeClass("running").prop("disabled", false);
-                        iziToast.error({
-                            message: "That didn't work, please try again.",
-                            icon: "fa fa-times",
-                             timeout: 9999999
-                        });
                     }
+
+
                 }).fail((err) => {
                     console.error("API fetch failed", err);
                 });

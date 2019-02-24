@@ -34,4 +34,20 @@ class FusionUser
         
         return false;
     }
+
+    /**
+     * Gets the nice name of a user
+     * @return string
+     */
+    public function getNiceName($username)
+    {
+        $stmt = $this->database->instance()->prepare("SELECT friendlyname FROM users WHERE username = ?");
+        $stmt->execute([$username]);
+        $res = $stmt->fetch();
+
+        if ($res === false)
+            return "<ERR: in getNiceName(), user does not exist>";
+
+        return $res["friendlyname"];
+    }
 }

@@ -5,6 +5,7 @@ $INCLUDE_ROOT = $_SERVER['DOCUMENT_ROOT'] . '/includes/';
 require_once($INCLUDE_ROOT . "Database.php");
 require_once($INCLUDE_ROOT . "User.php");
 require_once($INCLUDE_ROOT . "GenericRequest.php");
+require_once($INCLUDE_ROOT . "Session.php");
 
 $request = new APIRequest();
 
@@ -14,6 +15,7 @@ $database->connect();
 $username = $_POST['username'];
 $password = $_POST['password'];
 
+
 $gate = new FusionUser($database);
 
 if (!$gate->doesLoginWork($username, $password))
@@ -21,9 +23,9 @@ if (!$gate->doesLoginWork($username, $password))
     $request -> fail("Username or password incorrect.") -> terminate();
 }
 
-$_SESSION["loggedIn"] = true;
-$_SESSION["auth"] = [
-    "authenticatedAs" => $username
-];
+$niceName = $gate->getNiceName($username);
 
-$request -> message("Logged in as " . $username) -> terminate();
+FusionSessionInterface::setIsLoggedIn(true);
+FusionSessionInterface::setLoggedInUser($username, $niceName);
+
+$request -> message("Logged in as " . $niceName) -> terminate();
