@@ -36,33 +36,31 @@ if (!FusionSessionInterface::isLoggedIn())
         body {
             /* Margin bottom by footer height */
             margin-bottom: 60px;
+            background: #36D1DC;  /* fallback for old browsers */
+            background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
         }
-        .footer {
+        .Absolute-Center {
+            margin: auto;
             position: absolute;
-            bottom: 0;
-            width: 100%;
-            /* Set the fixed height of the footer here */
-            height: 60px;
-            background-color: #f5f5f5;
+            top: 0; left: 0; bottom: 0; right: 0;
+        }
+
+        .Absolute-Center.is-Responsive {
+            width: 50%;
+            height: 50%;
+            min-width: 300px;
+            max-width: 500px;
+            padding: 50px;
         }
     </style>
 </head>
 
 <body>
-<?php
-$nav = new Navbar();
-$nav -> setAuthProvider(FusionSessionInterface::class);
-$nav -> setNavbarType("loggedIn");
-$nav -> render();
-?>
-<div class="container" style='margin-top: 15px'>
-    <h1 class='display-4 modern'> pangaea fusion </h1>
-    <p class='lead modern'> As Pangea's in-house data platform, Fusion enables our members to effectively and quickly catalog scouting, project, and to-do data. </p>
-    <button type="button" class="btn btn-primary ld-ext-right" id="btn-login">Log in<div class="ld ld-ring ld-spin"></div></button>
-</div>
-<footer class="footer" style='margin-top: 5px;'>
-    <div class="container" style='margin-top:16px'>
-        <span class="text-muted align-middle">(c) 2019 Team Pangaea - Fusion 1.0.0</span>
+<div class="container">
+    <div class="Absolute-Center is-Responsive">
+        <div id="logo-container"></div>
+
     </div>
-</footer>
+</div>
+</body>
 </html>
