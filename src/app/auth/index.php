@@ -6,9 +6,12 @@
 <?php
     session_start();
 
+    $logout = false;
+
     if (isset($_GET['_']))
     {
         session_destroy(); // log-out code
+        $logout = true;
     }
 
     if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == true) 
@@ -145,9 +148,12 @@
             };
 
             $("#btn-login").click(loginRedirect);
-            $("#wr-forgot").click(eef.forgot);
-        });
+            $("#wr-forgot").click(eef.forgot)
 
+
+            // Server-generated:
+            <?= ($logout ? 'iziToast.show({theme: "dark", icon: "fa fa-user", title: "Logged out"});' : ''); ?>
+        });
     </script>
 </head>
 
