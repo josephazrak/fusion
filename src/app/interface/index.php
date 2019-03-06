@@ -26,8 +26,11 @@
         <link rel="stylesheet" href="/assets/fonts.css"/>
         <link rel="stylesheet" href="/assets/materialize_whitetheme.css"/>
         <title>FUSION Dashboard</title>
-        <style>
-        </style>
+        <script>
+            $(function() {
+                $("#welcome-text").html("Welcome to Pangaea Fusion! It is " + (new Date()).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ".")
+            });
+        </script>
     </head>
     <body>
         <header>
@@ -37,14 +40,21 @@
             $Navbar->setAuthProvider(FusionSessionInterface::class);
             $Navbar->setNavbarFramework("materialize");
             $Navbar->setNavbarType("loggedIn");
-            $Navbar->bindParam("{{P_MODE}}", "Main Menu");
+            $Navbar->bindParam("{{P_MODE}}", "Scouting");
             $Navbar->render();
         ?>
         <!-- NAV END -->
         </header>
         <main>
         <div class="container">
-            Hello!
+                <h1 class="flow-text center-align" id="welcome-text">Welcome to Pangaea Fusion!</h1>
+                <p class="center-align" id="status-text">Enter a team number or team name to access data:</p>
+                <div class="center-align">
+                    <input type="text" placeholder='6813 or "Team Pangaea"...'></input>
+                    <div style="margin-top: 15px">
+                        <a class="btn waves-light btn-override-rainbow">Scout</a>
+                    </div>
+                </div>
         </div>
         </main>
         <footer class="page-footer">

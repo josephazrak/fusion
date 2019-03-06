@@ -38,3 +38,8 @@ footer{
     background: #36D1DC;  /* fallback for old browsers */
     background-image: linear-gradient(120deg, #84fab0 0%, #8fd3f4 100%);
 }
+
+.btn-override-rainbow {
+    background-color: #fff;  /* fallback for old browsers */
+    color: #000;
+}
