@@ -10,9 +10,6 @@
 
         public $connected = false;
 
-        /**
-         *
-         */
         public function connect()
         {
             try

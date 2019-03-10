@@ -18,6 +18,7 @@
 
     $searchResults = FusionTeamQuery::searchByStringOrID($TERM, $database);
     $buffer = [];
+    $foundAny = false;
 
     foreach ($searchResults as $result) {
         $buffer[] = [
@@ -25,6 +26,7 @@
             'niceName' => $result["frcTeamName"],
             'frcId' => $result["frcTeamID"]
         ];
+        $foundAny = true;
     }
 
-    $request -> message($buffer) -> terminate();
+    $request -> message(["Found" => $foundAny, "Additional" => $buffer]) -> terminate();
