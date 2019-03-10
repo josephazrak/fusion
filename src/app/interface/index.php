@@ -29,7 +29,7 @@ if (!FusionSessionInterface::isLoggedIn())
     <script>
         let status = "Enter a team number or team name to access data:";
 
-        let fetchTeamInfoTentative = (teamID) => {
+        let fetchTeamInfoByKeyword = (teamID) => {
             $.ajax({
                 "method": "GET",
                 "url": "api/teaminfo_search",
@@ -38,7 +38,7 @@ if (!FusionSessionInterface::isLoggedIn())
                 }
             }).done((data) => {
                 try {
-                    let data2 = JSON.parse(data);
+                    let data2 = (typeof data === "object" ? data : JSON.parse(data));
                     console.log("[api/teaminfo_search] resp: ", data2);
                 } catch (e) {
                     console.error("[api/teaminfo_search] err: ", e);
@@ -57,12 +57,12 @@ if (!FusionSessionInterface::isLoggedIn())
                     return 0;
                 }
 
-                status = "Scout team " + $field.val();
+                status = "Edit or add team: " + $field.val();
                 $("#status-text").html(status);
 
-                try {
-                    fetchTeamInfoTentative($field.val());
-                } catch (e) {}
+                // try {
+                //     fetchTeamInfoTentative($field.val());
+                // } catch (e) {}
             });
 
             // $.ajax({

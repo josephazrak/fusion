@@ -16,5 +16,15 @@
         $request -> fail(["Found" => false, "Additional" => null]) -> terminate();
     }
 
-    echo "ToFind: " . $TERM . "\n";
-    FusionTeamQuery::searchByStringOrID($TERM, $database);
+    $searchResults = FusionTeamQuery::searchByStringOrID($TERM, $database);
+    $buffer = [];
+
+    foreach ($searchResults as $result) {
+        $buffer[] = [
+            'internalId' => $result["fusionTeamID"],
+            'niceName' => $result["frcTeamName"],
+            'frcId' => $result["frcTeamID"]
+        ];
+    }
+
+    $request -> message($buffer) -> terminate();
