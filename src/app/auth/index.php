@@ -14,7 +14,7 @@
         $logout = true;
     }
 
-    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == true) 
+    if (isset($_SESSION["loggedIn"]) && $_SESSION["loggedIn"] == true && !loggedOut)
     {
         header("Location: /app/interface/");
         die("If you don't get redirected, click <a href='/app/interface/'>here</a>");
