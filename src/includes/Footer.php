@@ -10,6 +10,6 @@
 
     class UIFooter {
         public static function render() {
-            echo sprintf(file_get_contents(__DIR__ . "/footer/footer.html"), (Env::Get() ? "local development server" : "remote production server"));
+            echo sprintf(file_get_contents(__DIR__ . "/footer/footer.html"), (Env::Get() == "dev"? "local development server" : "remote production server"));
         }
     }
