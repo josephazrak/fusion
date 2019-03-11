@@ -20,4 +20,18 @@
 
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
+
+        public static function getTeamInfoByInternalId($id, $database)
+        {
+            $sql = "SELECT * FROM `team_manifest` WHERE fusionTeamId=:id";
+            $stmt = $database->instance()->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->execute();
+            $res = $stmt -> fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$res)
+                return false; // No such team.
+
+            return $res;
+        }
     }
