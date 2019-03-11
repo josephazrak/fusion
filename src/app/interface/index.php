@@ -162,9 +162,9 @@ if (!FusionSessionInterface::isLoggedIn())
             <p class="center-align" id="status-text">Enter a team number or team name to access data:</p>
             <div class="center-align">
                 <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete"></input>
-                <div style="margin-top: 15px">
-                    <a class="btn waves-light btn-override-rainbow">Scout</a>
-                </div>
+<!--                <div style="margin-top: 15px">-->
+<!--                    <a class="btn waves-light btn-override-rainbow">Scout</a>-->
+<!--                </div>-->
             </div>
         </div>
     </div>

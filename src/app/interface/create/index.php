@@ -43,7 +43,7 @@ if (!FusionSessionInterface::isLoggedIn())
 </header>
 <main>
     <div class="container">
-
+        <h1 class="flow-text">Creating team manifest</h1>
     </div>
 </main>
 <?php UIFooter::render(); ?>
