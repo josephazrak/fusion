@@ -110,7 +110,7 @@
                                 buttons: [
                                     ["<button>Continue</button>", () => {location.replace("/app/interface/")}]
                                 ],
-                                timeout: 4000
+                                timeout: 2500
                             });
 
                             setTimeout(() => {
