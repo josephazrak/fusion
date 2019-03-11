@@ -59,16 +59,16 @@ if (!FusionSessionInterface::isLoggedIn())
 <main>
     <div class="container">
         <?php
-            $internal_id_input = $_GET['t'];
+        $internal_id_input = $_GET['t'];
 
-            $db = new FusionDBInterface();
-            $db->connect();
+        $db = new FusionDBInterface();
+        $db->connect();
 
-            if (!FusionTeamQuery::getTeamInfoByInternalId($internal_id_input, $db))
-            {
-                // FAIL NOW!
-                die("<p> Internal System Error. This team does not exist. <a href='/'>Go back</a></p></body></html>");
-            }
+        if (!FusionTeamQuery::getTeamInfoByInternalId($internal_id_input, $db))
+        {
+            // FAIL NOW!
+            die("<p> Internal System Error. This team does not exist. <a href='/'>Go back</a></p></body></html>");
+        }
         ?>
         <div class="center-div" style="text-align: center;">
             <h1 class="flow-text">Select scouting mode</h1>
