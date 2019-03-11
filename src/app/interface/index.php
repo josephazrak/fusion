@@ -9,8 +9,7 @@ session_start();
 
 if (!FusionSessionInterface::isLoggedIn())
 {
-    header("Location: /app/auth/");
-    die("Unauthorized. If you don't get redirected, click <a href='/app/auth/'>here</a>");
+    die("<script>location.replace('/app/auth/');</script>Unauthorized. If you don't get redirected, click <a href='/app/auth/'>here</a>");
 }
 ?>
 <!DOCTYPE html>
@@ -86,7 +85,7 @@ if (!FusionSessionInterface::isLoggedIn())
         };
 
         $(function() {
-            $("#welcome-text").html("Welcome to Pangaea Fusion! It is " + (new Date()).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ".");
+            $("#welcome-text").html($("#welcome-text").html() + " It is " + (new Date()).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ".");
             $("#team-id-control").on("input", (e) => {
                 let $field = $("#team-id-control");
                 let val = $field.val();
@@ -158,7 +157,7 @@ if (!FusionSessionInterface::isLoggedIn())
 <main>
     <div class="container">
         <div class="entry-div">
-            <h1 class="flow-text center-align" id="welcome-text">Welcome to Pangaea Fusion!</h1>
+            <h1 class="flow-text center-align" id="welcome-text">Welcome to Pangaea Fusion, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>!</h1>
             <p class="center-align" id="status-text">Enter a team number or team name to access data:</p>
             <div class="center-align">
                 <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete"></input>

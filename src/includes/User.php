@@ -12,7 +12,7 @@ class FusionUser
     }
 
     /**
-     * Checks if the user exists in the database
+     * Checks if the the user/pass combination works
      * @return bool
      */
     public function doesLoginWork($username, $password)
@@ -23,15 +23,12 @@ class FusionUser
 
         if ($res === false)
             return false;
-        
-        $salt = $res["salt"];
+
         $pass = $res["password"];
 
-        $hash = hash("sha512", $password . "#" . $salt);
-
-        if ($hash == $pass) 
+        if (password_verify($password, $pass))
             return true;
-        
+
         return false;
     }
 
