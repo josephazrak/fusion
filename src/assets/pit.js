@@ -69,8 +69,14 @@ let init = () => {
         CARGO: $("#intake-cargo")
     };
 
+    window.DRIVEOFF = {
+        SELECTOR: $("#driveoff-selector"),
+        LEFT: $("#assist-left"),
+        RIGHT: $("#assist-right"),
+        SIMUL: $("#assist-simul")
+    };
+
     INTAKE.SELECTOR.change(() => {
-        console.log("change")
         if (INTAKE.SELECTOR.val() !== "none") {
             $("#group-hatchescargo").show();
         } else {
@@ -82,13 +88,22 @@ let init = () => {
 };
 
 let prefillData = () => {
-    // Pre-fill intake
     if (!window.lastInfo)
         return false;
 
+    // Pre-fill intake
     INTAKE.SELECTOR.val(window.lastInfo.intake.type).change();
     INTAKE.HATCHES.prop("checked", window.lastInfo.intake.hatches);
     INTAKE.CARGO.prop("checked", window.lastInfo.intake.cargo);
+
+    // Pre-fill driveoff
+    DRIVEOFF.SELECTOR.val(window.lastInfo.driveoff.level);
+    DRIVEOFF.LEFT.prop("checked", window.lastInfo.driveoff.assist.left);
+    DRIVEOFF.RIGHT.prop("checked", window.lastInfo.driveoff.assist.right);
+    DRIVEOFF.SIMUL.prop("checked", window.lastInfo.driveoff.assist.simultaneous);
+
+    // Pre-fill parts
+
 }
 
 $(init);

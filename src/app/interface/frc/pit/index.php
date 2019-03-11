@@ -111,7 +111,41 @@ if (!FusionSessionInterface::isLoggedIn())
                     </div>
                 </div>
             </div>
-            <div class="row" id="group-hatchescargo">
+            <!-- FORMSET 1 END-->
+            <h1 class="flow-text">Drive-off</h1>
+            <!-- FORMSET 2 BEGIN: DRIVEOFF -->
+            <div class="row">
+                <div class="input-field col s12 m6 l6">
+                    <select id="driveoff-selector" class="browser-default">
+                        <option value="1" default>Level 1</option>
+                        <option value="2">Level 2</option>
+                    </select>
+                </div>
+                <div id="group-driveoffstats">
+                    <div class="input-field col s4 m2 l2">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="assist-left"/>
+                            <span>Left Assist</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m2 l2">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="assist-right"/>
+                            <span>Right Assist</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m2 l2">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="assist-simul"/>
+                            <span>Simultaneous Assist</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- FORMSET 2 END-->
+            <h1 class="flow-text">Piece Ability</h1>
+            <!-- FORMSET 3 BEGIN: PIECE ABILITY-->
+            <div class="row">
 
             </div>
         </div>
