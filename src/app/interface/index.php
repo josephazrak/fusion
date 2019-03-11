@@ -27,7 +27,7 @@ if (!FusionSessionInterface::isLoggedIn())
     <link rel="stylesheet" href="/assets/materialize_whitetheme.css"/>
     <title>FUSION Dashboard</title>
     <script>
-        let status = "Enter a team number or team name to access data:";
+        let status = "Enter a team number, partial team name, or any other identifier to access data:";
 
         let fetchTeamInfoByKeyword = (teamID) => {
             $.ajax({
@@ -91,7 +91,7 @@ if (!FusionSessionInterface::isLoggedIn())
                 let val = $field.val();
 
                 if (val === "" || val === " ") {
-                    status = "Enter a team number or team name to access data:";
+                    status = "Enter a team number, partial team name, or any other identifier to access data:";
                     $("#status-text").html(status);
                     return 0;
                 }
@@ -158,7 +158,7 @@ if (!FusionSessionInterface::isLoggedIn())
     <div class="container">
         <div class="entry-div">
             <h1 class="flow-text center-align" id="welcome-text">Welcome to Pangaea Fusion, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>!</h1>
-            <p class="center-align" id="status-text">Enter a team number or team name to access data:</p>
+            <p class="center-align" id="status-text">Enter a team number, partial team name, or any other identifier to access data:</p>
             <div class="center-align">
                 <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete"></input>
 <!--                <div style="margin-top: 15px">-->
