@@ -55,7 +55,7 @@ if (!FusionSessionInterface::isLoggedIn())
     <!-- NAV END -->
 </header>
 <main>
-    <div class="container">
+    <div class="container" style="margin-top: 25px;">
         <a href="#!" onclick="back()" style="margin-top:10px;">< Back</a>
         <?php
         $internal_id_input = $_GET['t'];
@@ -72,7 +72,7 @@ if (!FusionSessionInterface::isLoggedIn())
         $name = FusionTeamQuery::getTeamInfoByInternalId($internal_id_input, $db)[0]["frcTeamName"];
         ?>
         <div class="container-fluid">
-            <h1 class="flow-text">Pit Scouting — Team <?=$name?></h1>
+            <h1 class="flow-text no-bottom-margin">Pit Scouting — Team <?=$name?></h1>
             <p> You are currently <b>pit scouting</b> Team <?=$name?>. Here, you can enter qualitative and quantitative measurements about Team <?=$name?>'s ROBOT.</p>
             <?php
                 $lo = PitScoutingInterface::doesTeamHaveData($internal_id_input, $db);
@@ -80,20 +80,20 @@ if (!FusionSessionInterface::isLoggedIn())
 
                 if ($lo)
                 {
-                    echo "<script>alert('WARNING! This team already has pit scouting data added by " .$lo.". By proceeding, you are overwriting that data.');</script>";
+                    echo "<script>alert('WARNING! This team already has pit scouting data added by " .$lo. ". By proceeding, you are overwriting that data.');</script>";
                     $lastInfo = PitScoutingInterface::getAllDataAndParse($internal_id_input, $db);
                     echo "<script>window.lastInfo=JSON.parse('" . json_encode($lastInfo) . "');</script>";
                 }
             ?>
             <hr>
-            <h1 class="flow-text">Intake</h1>
+            <h1 class="flow-text no-bottom-margin">Intake</h1>
             <!-- FORMSET 1 BEGIN: INTAKE -->
             <div class="row">
                 <div class="input-field col s12 m6 l6">
                     <select id="intake-selector" class="browser-default">
+                        <option value="none" selected>None (No Intake)</option>
                         <option value="ground">Ground</option>
                         <option value="exchange">Exchange</option>
-                        <option value="none" selected>None (No Intake)</option>
                     </select>
                 </div>
                 <div id="group-hatchescargo" style="display: none;">
@@ -112,7 +112,7 @@ if (!FusionSessionInterface::isLoggedIn())
                 </div>
             </div>
             <!-- FORMSET 1 END-->
-            <h1 class="flow-text">Drive-off</h1>
+            <h1 class="flow-text no-bottom-margin">Drive-off</h1>
             <!-- FORMSET 2 BEGIN: DRIVEOFF -->
             <div class="row">
                 <div class="input-field col s12 m6 l6">
@@ -143,14 +143,148 @@ if (!FusionSessionInterface::isLoggedIn())
                 </div>
             </div>
             <!-- FORMSET 2 END-->
-            <h1 class="flow-text">Piece Ability</h1>
+            <h1 class="flow-text no-bottom-margin">Piece Ability</h1>
             <!-- FORMSET 3 BEGIN: PIECE ABILITY-->
             <div class="row">
-
+                <div class="cargoship-wrapper">
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="cargoship-capable"/>
+                            <span>Cargo Ship</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="cargoship-hatch" style="display: none;"/>
+                            <span style="display: none;">Cargo Ship: Hatch</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="cargoship-cargo" style="display: none;"//>
+                            <span style="display: none;">Cargo Ship: Cargo</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="rocketlevel1-wrapper">
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel1-capable"/>
+                            <span>Rocket L1</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel1-hatch" style="display: none;"/>
+                            <span style="display: none;">Rocket L1: Hatch</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel1-cargo" style="display: none;"//>
+                            <span style="display: none;">Rocket L1: Cargo</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="rocketlevel2-wrapper">
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel2-capable"/>
+                            <span>Rocket L2</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel2-hatch" style="display: none;"/>
+                            <span style="display: none;">Rocket L2: Hatch</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel2-cargo"/>
+                            <span style="display: none;">Rocket L2: Cargo</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="rocketlevel3-wrapper">
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel3-capable"/>
+                            <span>Rocket L3</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel3-hatch" style="display: none;"/>
+                            <span style="display: none;">Rocket L3: Hatch</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" id="rocketlevel3-cargo" style="display: none;"//>
+                            <span style="display: none;">Rocket L3: Cargo</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <!-- FORMSET 3 END -->
+            <h1 class="flow-text no-bottom-margin">Endgame</h1>
+            <!-- FORMSET 4 BEGIN: ENDGAME -->
+            <div class="row no-bottom-margin">
+                <div class="input-field col s12 m12 l12">
+                    <select id="endgame-level-selector" class="browser-default">
+                        <option value="0">None (No Endgame Level)</option>
+                        <option value="1">Endgame Level 1</option>
+                        <option value="2">Endgame Level 2</option>
+                        <option value="3">Endgame Level 3</option>
+                    </select>
+                </div>
+            </div>
+            <div class="row" id="endgame-lra no-bottom-margin" style="margin-top: 0;">
+                <div class="input-field col s4 m4 l4">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-left"/>
+                        <span>Left</span>
+                    </label>
+                </div>
+                <div class="input-field col s4 m4 l4">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-right"/>
+                        <span>Right</span>
+                    </label>
+                </div>
+                <div class="input-field col s4 m4 l4" style="text-align:right;">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-assist" />
+                        <span>Assist</span>
+                    </label>
+                </div>
+            </div>
+            <div class="row" id="endgame-assist-additional" style="margin-top: 0;">
+                <div class="input-field col s4 m2 l2 right" style="text-align:right;">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-assist-left" />
+                        <span style="display: none;">Left</span>
+                    </label>
+                </div>
+                <div class="input-field col s4 m2 l2 right" style="text-align:right;">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-assist-right" />
+                        <span style="display: none;">Right</span>
+                    </label>
+                </div>
+                <div class="input-field col s4 m2 l2 right" style="text-align:right;">
+                    <label>
+                        <input type="checkbox" class="filled-in" id="endgame-assist-simultaneous" />
+                        <span style="display: none;">Simultaneous</span>
+                    </label>
+                </div>
             </div>
         </div>
     </div>
 </main>
-    <?php UIFooter::render(); ?>
+    <!-- FOOTER BEGIN -->
+        <?php UIFooter::render(); ?>
+    <!-- FOOTER END -->
 </body>
 </html>

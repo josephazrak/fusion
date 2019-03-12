@@ -43,3 +43,7 @@ footer{
     background-color: #fff;  /* fallback for old browsers */
     color: #000;
 }
+
+.no-bottom-margin {
+    margin-bottom: 0;
+}
