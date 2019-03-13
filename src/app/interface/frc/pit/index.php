@@ -26,11 +26,13 @@ if (!FusionSessionInterface::isLoggedIn())
     <script src="/assets/bootstrap/jquery-3.3.1.slim.min.js"></script>
     <script src="/assets/centering.js"></script>
     <script src="/assets/materialize/js/materialize.js"></script>
+    <script src="/assets/izitoast/izitoast.min.js"></script>
     <link href="/assets/materialize/css/materialize.css" rel="stylesheet" />
     <link rel="stylesheet" type="text/css" href="/assets/loading-btn/loading.css"/>
     <link rel="stylesheet" type="text/css" href="/assets/loading-btn/loading-btn.css"/>
     <link rel="stylesheet" href="/assets/fonts.css"/>
     <link rel="stylesheet" href="/assets/materialize_whitetheme.css"/>
+    <link rel="stylesheet" type="text/css" href="/assets/izitoast/izitoast.min.css" />
     <script src="/assets/pit.js"></script>
     <script>
         let intid=<?=$_GET['t'];?>;
@@ -84,6 +86,8 @@ if (!FusionSessionInterface::isLoggedIn())
                     $lastInfo = PitScoutingInterface::getAllDataAndParse($internal_id_input, $db);
                     echo "<script>window.lastInfo=JSON.parse('" . json_encode($lastInfo) . "');</script>";
                 }
+
+                echo "<script>window.internalId=" . $internal_id_input . ";</script>";
             ?>
             <hr>
             <h1 class="flow-text no-bottom-margin">Intake</h1>
@@ -114,7 +118,7 @@ if (!FusionSessionInterface::isLoggedIn())
             <!-- FORMSET 1 END-->
             <h1 class="flow-text no-bottom-margin">Drive-off</h1>
             <!-- FORMSET 2 BEGIN: DRIVEOFF -->
-            <div class="row">
+            <div class="row" style="margin-bottom: 55px;">
                 <div class="input-field col s12 m6 l6">
                     <select id="driveoff-selector" class="browser-default">
                         <option value="1" default>Level 1</option>
@@ -137,100 +141,108 @@ if (!FusionSessionInterface::isLoggedIn())
                     <div class="input-field col s4 m2 l2">
                         <label>
                             <input type="checkbox" class="filled-in" checked="checked" id="assist-simul"/>
-                            <span>Simultaneous Assist</span>
+                            <span>Simult. Assist</span>
                         </label>
                     </div>
                 </div>
             </div>
             <!-- FORMSET 2 END-->
-            <h1 class="flow-text no-bottom-margin">Piece Ability</h1>
+            <h1 class="flow-text">Piece Ability</h1>
             <!-- FORMSET 3 BEGIN: PIECE ABILITY-->
-            <div class="row">
-                <div class="cargoship-wrapper">
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="cargoship-capable"/>
-                            <span>Cargo Ship</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="cargoship-hatch" style="display: none;"/>
-                            <span style="display: none;">Cargo Ship: Hatch</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="cargoship-cargo" style="display: none;"//>
-                            <span style="display: none;">Cargo Ship: Cargo</span>
-                        </label>
-                    </div>
-                </div>
-                <div class="rocketlevel1-wrapper">
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel1-capable"/>
-                            <span>Rocket L1</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel1-hatch" style="display: none;"/>
-                            <span style="display: none;">Rocket L1: Hatch</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel1-cargo" style="display: none;"//>
-                            <span style="display: none;">Rocket L1: Cargo</span>
-                        </label>
+            <div class="" style="margin-bottom: 55px;">
+                <div class="row" style="margin-top:35px">
+                    <div class="cargoship-wrapper">
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="cargoship-capable"/>
+                                <span>Cargo Ship</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="cargoship-hatch" style="display: none;"/>
+                                <span style="display: none;">Cargo Ship: Hatch</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="cargoship-cargo" style="display: none;"//>
+                                <span style="display: none;">Cargo Ship: Cargo</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="rocketlevel2-wrapper">
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel2-capable"/>
-                            <span>Rocket L2</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel2-hatch" style="display: none;"/>
-                            <span style="display: none;">Rocket L2: Hatch</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel2-cargo"/>
-                            <span style="display: none;">Rocket L2: Cargo</span>
-                        </label>
+                <div class="row" style="margin-top:35px">
+                    <div class="rocketlevel1-wrapper">
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel1-capable"/>
+                                <span>Rocket L1</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel1-hatch" style="display: none;"/>
+                                <span style="display: none;">Rocket L1: Hatch</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel1-cargo" style="display: none;"//>
+                                <span style="display: none;">Rocket L1: Cargo</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
-                <div class="rocketlevel3-wrapper">
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel3-capable"/>
-                            <span>Rocket L3</span>
-                        </label>
+                <div class="row" style="margin-top:35px">
+                    <div class="rocketlevel2-wrapper">
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel2-capable"/>
+                                <span>Rocket L2</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel2-hatch" style="display: none;"/>
+                                <span style="display: none;">Rocket L2: Hatch</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel2-cargo"/>
+                                <span style="display: none;">Rocket L2: Cargo</span>
+                            </label>
+                        </div>
                     </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel3-hatch" style="display: none;"/>
-                            <span style="display: none;">Rocket L3: Hatch</span>
-                        </label>
-                    </div>
-                    <div class="input-field col s4 m4 l4">
-                        <label>
-                            <input type="checkbox" class="filled-in" id="rocketlevel3-cargo" style="display: none;"//>
-                            <span style="display: none;">Rocket L3: Cargo</span>
-                        </label>
+                </div>
+                <div class="row" style="margin-top:35px">
+                    <div class="rocketlevel3-wrapper">
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel3-capable"/>
+                                <span>Rocket L3</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel3-hatch" style="display: none;"/>
+                                <span style="display: none;">Rocket L3: Hatch</span>
+                            </label>
+                        </div>
+                        <div class="input-field col s4 m4 l4">
+                            <label>
+                                <input type="checkbox" class="filled-in" id="rocketlevel3-cargo" style="display: none;"//>
+                                <span style="display: none;">Rocket L3: Cargo</span>
+                            </label>
+                        </div>
                     </div>
                 </div>
             </div>
             <!-- FORMSET 3 END -->
-            <h1 class="flow-text no-bottom-margin">Endgame</h1>
+            <h1 class="flow-text">Endgame</h1>
             <!-- FORMSET 4 BEGIN: ENDGAME -->
-            <div class="row no-bottom-margin">
+            <div class="row">
                 <div class="input-field col s12 m12 l12">
                     <select id="endgame-level-selector" class="browser-default">
                         <option value="0">None (No Endgame Level)</option>
@@ -240,7 +252,7 @@ if (!FusionSessionInterface::isLoggedIn())
                     </select>
                 </div>
             </div>
-            <div class="row" id="endgame-lra no-bottom-margin" style="margin-top: 0;">
+            <div class="row" id="endgame-lra" style="margin-top: 0;">
                 <div class="input-field col s4 m4 l4">
                     <label>
                         <input type="checkbox" class="filled-in" id="endgame-left"/>
@@ -276,8 +288,35 @@ if (!FusionSessionInterface::isLoggedIn())
                 <div class="input-field col s4 m2 l2 right" style="text-align:right;">
                     <label>
                         <input type="checkbox" class="filled-in" id="endgame-assist-simultaneous" />
-                        <span style="display: none;">Simultaneous</span>
+                        <span style="display: none;">Both</span>
                     </label>
+                </div>
+            </div>
+            <!-- FORMSET 4 END-->
+            <h1 class="flow-text">Additional Notes</h1>
+            <!-- FORMSET 5 BEGIN: NOTES -->
+            <div class="row no-bottom-margin">
+                <form class="col s12 m12 l12">
+                    <div class="row">
+                        <div class="input-field">
+                            <textarea id="notes-field" class="materialize-textarea"></textarea>
+                            <label for="notes-field">Notes</label>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <a class="btn btn-override-rainbow" href="#!" id="form-submit">Save</a>
+                </div>
+            </div>
+            <div id="modal1" class="modal">
+                <div class="modal-content" id="progress-content-wrapper">
+                    <h4 id="progress-modal-header">Saving your changes...</h4>
+                    <p id="progress-modal-desc">Submitting to Pangaea Fusion server...</p>
+                    <div class="progress prog">
+                        <div class="indeterminate"></div>
+                    </div>
                 </div>
             </div>
         </div>

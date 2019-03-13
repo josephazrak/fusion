@@ -34,4 +34,19 @@
 
             return $res;
         }
+
+        public static function teamExistsByInternalId($id, $database)
+        {
+            $sql = "SELECT frcTeamID FROM `team_manifest` WHERE fusionTeamID=:id";
+            $stmt = $database->instance()->prepare($sql);
+            $stmt->bindParam("id", $id);
+            $stmt->execute();
+
+            $res = $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+            if (!$res || count($res) === 0)
+                return false;
+
+            return true;
+        }
     }

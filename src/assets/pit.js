@@ -126,6 +126,7 @@ let init = () => {
             showCheckmark(ENDGAME.LEFT);
             showCheckmark(ENDGAME.RIGHT);
             showCheckmark(ENDGAME.ASSIST.CAPABLE);
+            ENDGAME.ASSIST.CAPABLE.change();
         } else {
             hideCheckmark(ENDGAME.LEFT);
             hideCheckmark(ENDGAME.RIGHT);
@@ -149,6 +150,8 @@ let init = () => {
         }
     });
     prefillData();
+
+    $("#form-submit").on("click", exportData);
 };
 
 let prefillDefaults = () => {
@@ -215,6 +218,10 @@ let prefillData = () => {
     ENDGAME.ASSIST.RIGHT.prop("checked", window.lastInfo.endgame.assist.right);
     ENDGAME.ASSIST.SIMULTAENOUS.prop("checked", window.lastInfo.endgame.assist.simultaneous);
 
+    // Pre-fill notes
+    $("#notes-field").val(window.lastInfo.notes).focus();
+    M.textareaAutoResize($("#notes-field").get(0)); // resize notes area
+
     console.log("[prefill]", "done prefilling");
 };
 
@@ -225,11 +232,85 @@ let exportData = () => {
         intake: {type: "", hatches: false, cargo: false},
         driveoff: {level: 0, assist: {left: false, right: false, simultaneous: false}},
         pieceability: {"cargoship": {"capable": true, "hatch": true, "cargo": true}, "rocketl1": {"capable": true, "hatch": true, "cargo": false}, "rocketl2":  {"capable": false, "hatch": true, "cargo": false}, "rocketl3":  {"capable": true, "hatch": true, "cargo": false}},
-        endgame: {},
+        endgame: {level: 0, left: false, right: false, assist: {capable: false, left: false, right: false, simultaneous: false}},
         notes: ""
     };
 
+    console.log("[export] initial, ", window.lastInfo);
 
+    // INTAKE Export
+    pit.intake.type    = INTAKE.SELECTOR.val();
+    pit.intake.hatches = isChecked(INTAKE.HATCHES);
+    pit.intake.cargo   = isChecked(INTAKE.CARGO);
+
+    // DRIVEOFF Export
+    pit.driveoff.level               = parseInt(DRIVEOFF.SELECTOR.val());
+    pit.driveoff.assist.left         = isChecked(DRIVEOFF.LEFT);
+    pit.driveoff.assist.right        = isChecked(DRIVEOFF.RIGHT);
+    pit.driveoff.assist.simultaneous = isChecked(DRIVEOFF.SIMUL);
+
+    // PIECEABILITY Export
+    pit.pieceability.cargoship.capable = isChecked(PIECES.CARGOSHIP.capable);
+    pit.pieceability.cargoship.hatch   = isChecked(PIECES.CARGOSHIP.hatch);
+    pit.pieceability.cargoship.cargo   = isChecked(PIECES.CARGOSHIP.cargo);
+    pit.pieceability.rocketl1.capable  = isChecked(PIECES.ROCKETLEVEL1.capable);
+    pit.pieceability.rocketl1.hatch    = isChecked(PIECES.ROCKETLEVEL1.hatch);
+    pit.pieceability.rocketl1.cargo    = isChecked(PIECES.ROCKETLEVEL1.cargo);
+    pit.pieceability.rocketl2.capable  = isChecked(PIECES.ROCKETLEVEL2.capable);
+    pit.pieceability.rocketl2.hatch    = isChecked(PIECES.ROCKETLEVEL2.hatch);
+    pit.pieceability.rocketl2.cargo    = isChecked(PIECES.ROCKETLEVEL2.cargo);
+    pit.pieceability.rocketl3.capable  = isChecked(PIECES.ROCKETLEVEL3.capable);
+    pit.pieceability.rocketl3.hatch    = isChecked(PIECES.ROCKETLEVEL3.hatch);
+    pit.pieceability.rocketl3.cargo    = isChecked(PIECES.ROCKETLEVEL3.cargo);
+
+    // ENDGAME Export
+    pit.endgame.level = parseInt(ENDGAME.LEVEL.val());
+    pit.endgame.left = isChecked(ENDGAME.LEFT);
+    pit.endgame.right = isChecked(ENDGAME.RIGHT);
+    pit.endgame.assist.capable = isChecked(ENDGAME.ASSIST.CAPABLE);
+    pit.endgame.assist.left = isChecked(ENDGAME.ASSIST.LEFT);
+    pit.endgame.assist.right = isChecked(ENDGAME.ASSIST.RIGHT);
+    pit.endgame.assist.simultaneous = isChecked(ENDGAME.ASSIST.SIMULTAENOUS);
+
+    // NOTES Export
+    pit.notes = $("#notes-field").val();
+
+    console.log("[export] to save: ", pit);
+    M.Modal.init(document.querySelectorAll('.modal'), {})[0].open();
+
+    $.ajax({
+        "url": "/app/interface/api/pitscout_submit",
+        "method": "POST",
+        "data": {
+            "internalId": window.internalId,
+            "data": JSON.stringify(pit)
+        }
+    }).done((resp) => {
+        resp = (typeof resp === "object")? resp: JSON.parse(resp);
+        $(".prog").fadeOut(50);
+        let timeleft = 8;
+        if (resp.success) {
+            let temp = "FUSION server said: " + resp.message + " Redirecting in ";
+
+            iziToast.show({message: resp.message, theme: "dark"});
+
+            $("#progress-modal-header").html("Success!");
+            $("#progress-modal-desc").html(temp + timeleft.toString());
+
+            setInterval(() => {
+                if (timeleft <= 0) {
+                    location.replace("/app/interface/");
+                    return;
+                }
+                timeleft--;
+                $("#progress-modal-desc").html(temp + timeleft.toString());
+            }, 1000);
+
+        } else {
+            iziToast.show({message: "ERROR! Failed! Check console for more details."});
+            console.error("The pit record update failed! API Response: " + resp);
+        }
+    });
 };
 
 $(init);
