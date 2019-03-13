@@ -19,8 +19,6 @@
             if (Env::Get() == "dev")
                 $this->port = "3307";
 
-            $this->port = "3306"; // O V E R R I D E
-
             try {
                 $conn = new PDO("mysql:host=" . $this->host . ";port=" . $this->port . ";dbname=" . $this->db, $this->user, $this->pass);
                 $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
