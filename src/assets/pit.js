@@ -279,7 +279,7 @@ let exportData = () => {
     M.Modal.init(document.querySelectorAll('.modal'), {})[0].open();
 
     $.ajax({
-        "url": "/app/interface/api/pitscout_submit",
+        "url": "/app/interface/api/pitscout_submit/",
         "method": "POST",
         "data": {
             "internalId": window.internalId,
@@ -308,7 +308,13 @@ let exportData = () => {
 
         } else {
             iziToast.show({message: "ERROR! Failed! Check console for more details."});
-            console.error("The pit record update failed! API Response: " + resp);
+            console.error("The pit record update failed! API Response: ", resp);
+            $("#progress-modal-header").html("The server returned an error.");
+            $("#progress-modal-desc").html("Please keep this page open and tell Joseph about this issue — show the following info:");
+            $("#progress-modal-desc").parent().append($("<pre></pre>").html(
+                "SERVER: " + JSON.stringify(resp) + "<br>" +
+                "CLIENT: POST " + JSON.stringify({"internalId": window.internalId, "data": JSON.stringify(pit)})
+            ));
         }
     });
 };
