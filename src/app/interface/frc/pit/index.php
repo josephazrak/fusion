@@ -84,7 +84,8 @@ if (!FusionSessionInterface::isLoggedIn())
                 {
                     echo "<script>alert('WARNING! This team already has pit scouting data added by " .$lo. ". By proceeding, you are overwriting that data.');</script>";
                     $lastInfo = PitScoutingInterface::getAllDataAndParse($internal_id_input, $db);
-                    echo "<script>window.lastInfo=JSON.parse('" . json_encode($lastInfo) . "');</script>";
+
+                    echo "<script>window.lastInfo = " . json_encode($lastInfo) . ";</script>";
                 }
 
                 echo "<script>window.internalId=" . $internal_id_input . ";</script>";
@@ -92,31 +93,50 @@ if (!FusionSessionInterface::isLoggedIn())
             <hr>
             <h1 class="flow-text no-bottom-margin">Intake</h1>
             <!-- FORMSET 1 BEGIN: INTAKE -->
-            <div class="row">
-                <div class="input-field col s12 m6 l6">
-                    <select id="intake-selector" class="browser-default">
-                        <option value="none" selected>None (No Intake)</option>
-                        <option value="ground">Ground</option>
-                        <option value="exchange">Exchange</option>
-                    </select>
-                </div>
-                <div id="group-hatchescargo" style="display: none;">
-                    <div class="input-field col s6 m3 l3">
+            <div class="formset-1" >
+                <div class="row">
+                    <div class="input-field col s4 m4 l4">
                         <label>
-                            <input type="checkbox" class="filled-in" checked="checked" id="intake-hatches"/>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-ground-intake"/>
+                            <span>Ground Intake</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-ground-hatches"/>
                             <span>Hatches</span>
                         </label>
                     </div>
-                    <div class="input-field col s6 m3 l3">
+                    <div class="input-field col s4 m4 l4">
                         <label>
-                            <input type="checkbox" class="filled-in" checked="checked" id="intake-cargo"/>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-ground-cargo"/>
+                            <span>Cargo</span>
+                        </label>
+                    </div>
+                </div>
+                <div class="row" style="margin-top: 35px;">
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-exchange-intake"/>
+                            <span>Exchange Intake</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-exchange-hatches"/>
+                            <span>Hatches</span>
+                        </label>
+                    </div>
+                    <div class="input-field col s4 m4 l4">
+                        <label>
+                            <input type="checkbox" class="filled-in" checked="checked" id="can-exchange-cargo"/>
                             <span>Cargo</span>
                         </label>
                     </div>
                 </div>
             </div>
             <!-- FORMSET 1 END-->
-            <h1 class="flow-text no-bottom-margin">Drive-off</h1>
+            <h1 class="flow-text no-bottom-margin" style="margin-top: 4.3rem;">Drive-off</h1>
             <!-- FORMSET 2 BEGIN: DRIVEOFF -->
             <div class="row" style="margin-bottom: 55px;">
                 <div class="input-field col s12 m6 l6">

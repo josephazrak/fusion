@@ -21,9 +21,16 @@ let showCheckmark = (checkmark) => {
 
 let init = () => {
     window.INTAKE = {
-        SELECTOR: $("#intake-selector"),
-        HATCHES: $("#intake-hatches"),
-        CARGO: $("#intake-cargo")
+        GROUND: {
+            CAPABLE: $("#can-ground-intake"),
+            HATCHES: $("#can-ground-hatches"),
+            CARGO: $("#can-ground-cargo")
+        },
+        EXCHANGE: {
+            CAPABLE: $("#can-exchange-intake"),
+            HATCHES: $("#can-exchange-hatches"),
+            CARGO: $("#can-exchange-cargo")
+        }
     };
 
     window.DRIVEOFF = {
@@ -68,11 +75,23 @@ let init = () => {
         }
     };
 
-    INTAKE.SELECTOR.change(() => {
-        if (INTAKE.SELECTOR.val() !== "none") {
-            $("#group-hatchescargo").show();
+    INTAKE.GROUND.CAPABLE.change(() => {
+        if (isChecked(INTAKE.GROUND.CAPABLE)) {
+            showCheckmark(INTAKE.GROUND.CARGO);
+            showCheckmark(INTAKE.GROUND.HATCHES);
         } else {
-            $("#group-hatchescargo").hide();
+            hideCheckmark(INTAKE.GROUND.CARGO);
+            hideCheckmark(INTAKE.GROUND.HATCHES);
+        }
+    });
+
+    INTAKE.EXCHANGE.CAPABLE.change(() => {
+        if (isChecked(INTAKE.EXCHANGE.CAPABLE)) {
+            showCheckmark(INTAKE.EXCHANGE.CARGO);
+            showCheckmark(INTAKE.EXCHANGE.HATCHES);
+        } else {
+            hideCheckmark(INTAKE.EXCHANGE.CARGO);
+            hideCheckmark(INTAKE.EXCHANGE.HATCHES);
         }
     });
 
@@ -156,7 +175,12 @@ let init = () => {
 
 let prefillDefaults = () => {
     console.log("[prefill]", "prefilling defaults as no pit scouting data");
-    INTAKE.SELECTOR.val("none").change();
+    INTAKE.GROUND.CAPABLE.prop("checked", false).change();
+    INTAKE.GROUND.CARGO.prop("checked", false);
+    INTAKE.GROUND.HATCHES.prop("checked", false);
+    INTAKE.EXCHANGE.CAPABLE.prop("checked", false).change();
+    INTAKE.EXCHANGE.CARGO.prop("checked", false);
+    INTAKE.EXCHANGE.HATCHES.prop("checked", false);
 
     DRIVEOFF.SELECTOR.val("1").change();
     DRIVEOFF.LEFT.prop("checked", false);
@@ -181,9 +205,13 @@ let prefillData = () => {
     }
 
     // Pre-fill intake
-    INTAKE.SELECTOR.val(window.lastInfo.intake.type).change();
-    INTAKE.HATCHES.prop("checked", window.lastInfo.intake.hatches);
-    INTAKE.CARGO.prop("checked", window.lastInfo.intake.cargo);
+    INTAKE.GROUND.CAPABLE.prop("checked", window.lastInfo.intake.ground.capable).change();
+    INTAKE.GROUND.CARGO.prop("checked", window.lastInfo.intake.ground.cargo);
+    INTAKE.GROUND.HATCHES.prop("checked", window.lastInfo.intake.ground.hatches);
+    INTAKE.EXCHANGE.CAPABLE.prop("checked", window.lastInfo.intake.exchange.capable).change();
+    INTAKE.EXCHANGE.CARGO.prop("checked", window.lastInfo.intake.exchange.cargo);
+    INTAKE.EXCHANGE.HATCHES.prop("checked", window.lastInfo.intake.exchange.hatches);
+
 
     // Pre-fill driveoff
     DRIVEOFF.SELECTOR.val(window.lastInfo.driveoff.level);
@@ -229,19 +257,22 @@ let exportData = () => {
     console.log("[export]", "preparing for export...");
 
     let pit = {
-        intake: {type: "", hatches: false, cargo: false},
+        intake: {ground: {capable: false, cargo: false, hatches: false}, exchange: {capable: false, cargo: false, hatches: false}},
         driveoff: {level: 0, assist: {left: false, right: false, simultaneous: false}},
-        pieceability: {"cargoship": {"capable": true, "hatch": true, "cargo": true}, "rocketl1": {"capable": true, "hatch": true, "cargo": false}, "rocketl2":  {"capable": false, "hatch": true, "cargo": false}, "rocketl3":  {"capable": true, "hatch": true, "cargo": false}},
+        pieceability: {"cargoship": {"capable": false, "hatch": false, "cargo": false}, "rocketl1": {"capable": false, "hatch": false, "cargo": false}, "rocketl2":  {"capable": false, "hatch": false, "cargo": false}, "rocketl3":  {"capable": false, "hatch": false, "cargo": false}},
         endgame: {level: 0, left: false, right: false, assist: {capable: false, left: false, right: false, simultaneous: false}},
         notes: ""
     };
 
     console.log("[export] initial, ", window.lastInfo);
 
-    // INTAKE Export
-    pit.intake.type    = INTAKE.SELECTOR.val();
-    pit.intake.hatches = isChecked(INTAKE.HATCHES);
-    pit.intake.cargo   = isChecked(INTAKE.CARGO);
+    //TODO: UPDATE INTAKE HERE
+    pit.intake.ground.capable = isChecked(INTAKE.GROUND.CAPABLE);
+    pit.intake.ground.cargo = isChecked(INTAKE.GROUND.CARGO);
+    pit.intake.ground.hatches = isChecked(INTAKE.GROUND.HATCHES);
+    pit.intake.exchange.capable = isChecked(INTAKE.EXCHANGE.CAPABLE);
+    pit.intake.exchange.cargo = isChecked(INTAKE.EXCHANGE.CARGO);
+    pit.intake.exchange.hatches = isChecked(INTAKE.EXCHANGE.HATCHES);
 
     // DRIVEOFF Export
     pit.driveoff.level               = parseInt(DRIVEOFF.SELECTOR.val());
