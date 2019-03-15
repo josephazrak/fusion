@@ -38,7 +38,7 @@ if (!FusionSessionInterface::isLoggedIn())
         let intid=<?=$_GET['t'];?>;
 
         let back = () => {
-            location.replace("/app/interface/frc/?t=" + intid);
+            location.replace("/app/interface/");
         };
     </script>
     <title>FUSION Add Team</title>
