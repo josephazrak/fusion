@@ -3,6 +3,8 @@ $INCLUDE_ROOT = $_SERVER['DOCUMENT_ROOT'] . '/includes/';
 require_once($INCLUDE_ROOT . "Navbar.php");
 require_once($INCLUDE_ROOT . "Session.php");
 require_once($INCLUDE_ROOT . "Footer.php");
+require_once($INCLUDE_ROOT . "Database.php");
+require_once($INCLUDE_ROOT . "Dashboard.php");
 ?>
 <?php
 session_start();
@@ -54,11 +56,9 @@ if (!FusionSessionInterface::isLoggedIn())
                     let $button = $("#selection-modal-cta");
 
                     if (!data2.message.Found) {
-                        $header.html("We don't have any info on that team!");
-                        $info.html("Would you like to create it?");
-                        $button.html("Create team").css("opacity", 1).on("click", () => {
-                            makeById(teamID);
-                        });
+                        $header.html("We don't have any info on that team");
+                        $info.html("Stoopid boi");
+                        $button.html("Create team").css("opacity", 1).attr("disabled", 1);
                         return;
                     }
 
@@ -87,17 +87,17 @@ if (!FusionSessionInterface::isLoggedIn())
         $(function() {
             $("#welcome-text").html($("#welcome-text").html() + " It is " + (new Date()).toLocaleDateString("en-US", { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }) + ".");
             $("#team-id-control").on("input", (e) => {
-                let $field = $("#team-id-control");
-                let val = $field.val();
-
-                if (val === "" || val === " ") {
-                    status = "Enter a team number, partial team name, or any other identifier to access data:";
-                    $("#status-text").html(status);
-                    return 0;
-                }
-
-                status = "Edit or add team: " + val;
-                $("#status-text").html(status);
+                // let $field = $("#team-id-control");
+                // let val = $field.val();
+                //
+                // if (val === "" || val === " ") {
+                //     status = "Enter a team number, partial team name, or any other identifier to access data:";
+                //     //$("#status-text").html(status);
+                //     return 0;
+                // }
+                //
+                // status = "Edit or add team: " + val;
+                // //$("#status-text").html(status);
             });
 
 
@@ -154,11 +154,15 @@ if (!FusionSessionInterface::isLoggedIn())
     ?>
     <!-- NAV END -->
 </header>
+<?php
+    $db = new FusionDBInterface();
+    $db->connect();
+?>
 <main>
     <div class="container">
         <div class="entry-div">
-            <h1 class="flow-text center-align" id="welcome-text">Welcome to Pangaea Fusion, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>!</h1>
-            <p class="center-align" id="status-text">Enter a team number, partial team name, or any other identifier to access data:</p>
+            <h1 class="flow-text center-align" id="welcome-text">Hey, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>! Welcome to Fusion. We currently have pit data on <b><?php echo FusionDashboardUtility::getPitScoutedTeamAmount($db); ?>/<?php echo FusionDashboardUtility::getTotalTeamAmount($db);?></b> teams.</h1>
+            <p class="center-align" id="status-text">Try getting to teams <?php echo(FusionDashboardUtility::suggestNextTeamsStr($db)); ?> in the pit. Otherwise, enter a keyword below.</p>
             <div class="center-align">
                 <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete"></input>
 <!--                <div style="margin-top: 15px">-->
