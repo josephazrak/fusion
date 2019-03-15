@@ -72,7 +72,7 @@ if (!FusionSessionInterface::isLoggedIn())
 
                         $collectionItem.html("Team " + suggestion.frcId + " — " + suggestion.niceName);
                         $collectionItem.on("click", () => {
-                           editRedirect(suggestion.internalId);
+                            editRedirect(suggestion.internalId);
                         });
                         $collectionItem.appendTo($collection);
                     });
@@ -155,21 +155,21 @@ if (!FusionSessionInterface::isLoggedIn())
     <!-- NAV END -->
 </header>
 <?php
-    $db = new FusionDBInterface();
-    $db->connect();
+$db = new FusionDBInterface();
+$db->connect();
 ?>
 <main>
     <div class="container">
         <div class="entry-div">
-            <h1 class="flow-text center-align" id="welcome-text">Hey, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>! Welcome to Fusion. We're done collecting pit data; now, it's match time.</h1>
-            <p class="center-align" id="status-text">Assuming you're watching a match, <?php echo (FusionSessionInterface::getLoggedInNiceName()); ?>, pick a team to scout, and search for it below. Then, select Match Scout.</p>
+            <h1 class="flow-text center-align" id="welcome-text">Hey, <?php echo(FusionSessionInterface::getLoggedInNiceName()); ?>! Welcome to Fusion. We currently have pit data on <b><?php echo FusionDashboardUtility::getPitScoutedTeamAmount($db); ?>/<?php echo FusionDashboardUtility::getTotalTeamAmount($db);?></b> teams.</h1>
+            <p class="center-align" id="status-text">Try getting to teams <?php echo(FusionDashboardUtility::suggestNextTeamsStr($db)); ?> in the pit. Otherwise, enter a keyword below.</p>
             <div class="center-align">
-                <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete center-align"></input>
-<!--                <div style="margin-top: 15px">-->
-<!--                    <a class="btn waves-light btn-override-rainbow">Scout</a>-->
-<!--                </div>-->
+                <input type="text" id="team-id-control" placeholder='6813 or "Team Pangaea" or "Pangaea"...' class="autocomplete"></input>
+                <!--                <div style="margin-top: 15px">-->
+                <!--                    <a class="btn waves-light btn-override-rainbow">Scout</a>-->
+                <!--                </div>-->
             </div>
-<!--            <p class="center-align"><a style="color: red; font-weight: bolder;">(NEW!) </a>Time to visualize? <a href="/app/interface/dataview/">Click here</a> to go to the visualization dashboard.</p>-->
+            <p class="center-align"><a style="color: red; font-weight: bolder;">(NEW!) </a>Time to visualize? <a href="/app/interface/dataview/">Click here</a> to go to the visualization dashboard.</p>
         </div>
     </div>
     <div id="modal1" class="modal">
