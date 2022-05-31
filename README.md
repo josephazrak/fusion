@@ -2,6 +2,11 @@
   <img src="https://i.imgur.com/w7H4AYH.png" width="350" title="Pangaea Fusion logo">
 </p>
 
+<p align="middle">
+  <img src="https://i.imgur.com/focrr7T.png" width="400" />
+  <img src="https://i.imgur.com/lwwugwe.png" width="400" />
+</p>
+
 ---
 
 <p align="center">
